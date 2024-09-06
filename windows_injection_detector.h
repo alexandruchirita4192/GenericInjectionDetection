@@ -63,7 +63,7 @@ public:
                 std::wcout << L"Checking module: " << moduleEntry.szModule << std::endl;
 
                 // Check the signature of each loaded module
-                VerifySignature(charArrayToWstring(moduleEntry.szExePath))
+                VerifySignature(charArrayToWstring(moduleEntry.szExePath));
             } while (Module32Next(hSnapshot, &moduleEntry));
         }
 
