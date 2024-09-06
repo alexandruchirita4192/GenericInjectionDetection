@@ -28,7 +28,7 @@ jobs:
     - name: Build on Windows
       run: make
     - name: Archive built files
-      run: tar -czvf windows-build.tar.gz injection_detector*
+      run: tar -czvf windows-build.tar.gz injection_detector.exe libstdc++-6.dll libgcc_s_seh-1.dll
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
