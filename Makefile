@@ -18,7 +18,7 @@ ifeq ($(UNAME_S), Linux)
 else
     # Windows-specific files and flags
     HEADERS += windows_injection_detector.h
-    LDFLAGS := -lwintrust -lcrypt32  # Link WinTrust for DLL signature verification on Windows
+    LDFLAGS := -lwintrust -lcrypt32 -static-libgcc -static-libstdc++ # Link WinTrust for DLL signature verification on Windows
 endif
 
 # Object files
