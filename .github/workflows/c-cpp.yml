@@ -71,7 +71,7 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./release-assets/linux-build.tar.gz
         asset_name: linux-build.tar.gz
-        asset_label: Linux${{ github.run_number }}-${{ github.run_id }
+        asset_label: Linux${{ github.run_number }}-${{ github.run_id }}
         asset_content_type: application/gzip
         
     - name: Upload Windows build to Release
@@ -82,5 +82,5 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./release-assets/windows-build.tar.gz
         asset_name: windows-build.tar.gz
-        asset_label: Linux${{ github.run_number }}-${{ github.run_id }
+        asset_label: Linux${{ github.run_number }}-${{ github.run_id }}
         asset_content_type: application/gzip
