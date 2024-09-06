@@ -18,6 +18,8 @@ jobs:
         name: linux_injection_detector
         filename: injection_detector*
         path: .
+        tag: 0.2
+        tag_name: '{github.GITHUB_REF}'
 
   build-windows:
     runs-on: windows-latest
@@ -30,6 +32,5 @@ jobs:
         name: windows_injection_detector
         filename: injection_detector*
         path: .
-      
-
-      
+        tag: 0.2
+        tag_name: '{github.GITHUB_REF}'
