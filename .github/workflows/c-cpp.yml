@@ -56,8 +56,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
       with:
-        tag_name: ${{ github.sha }}
-        release_name: "Release ${{ github.sha }}"
+        tag_name: release-${{ github.run_number }}-${{ github.run_id }}  # Dynamic unique tag
+        release_name: "Release ${{ github.run_number }} from commit ${{ github.sha }} on ${{ github.event.head_commit.timestamp }}"
         draft: false
         prerelease: false
     - name: Upload Linux build to Release
