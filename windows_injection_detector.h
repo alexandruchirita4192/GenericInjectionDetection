@@ -6,6 +6,16 @@
 #include <windows.h>
 #include <tlhelp32.h>
 #include <iostream>
+#include <wintrust.h>   // For WinVerifyTrust function and structures
+#include <softpub.h>    // For WINTRUST_ACTION_GENERIC_VERIFY_V2
+#include <tchar.h>      // For _TCHAR definitions
+#include <string>
+
+// Utility function to convert char[] to std::wstring
+std::wstring charArrayToWstring(const char* charArray) {
+    std::wstring wstr(charArray, charArray + strlen(charArray));
+    return wstr;
+}
 
 class WindowsInjectionDetector : public InjectionDetector {
 public:
@@ -35,7 +45,6 @@ public:
         }
     }
 
-
     // Enumerates all loaded modules (DLLs) and checks their signatures
     void DetectModuleInjection() override {
         DWORD pid = GetCurrentProcessId();
@@ -51,8 +60,10 @@ public:
 
         if (Module32First(hSnapshot, &moduleEntry)) {
             do {
-                std::wcout << L"Loaded module: " << moduleEntry.szModule << std::endl;
-                VerifySignature(moduleEntry.szExePath);  // Check the signature of each loaded module
+                std::wcout << L"Checking module: " << moduleEntry.szModule << std::endl;
+
+                // Check the signature of each loaded module
+                VerifySignature(charArrayToWstring(moduleEntry.szExePath))
             } while (Module32Next(hSnapshot, &moduleEntry));
         }
 
@@ -61,7 +72,6 @@ public:
 
     void DetectIATInjection() override {
         HMODULE hModule = GetModuleHandle(NULL); // Handle to the current process
-
 
         // Step 1: Get DOS and NT headers
         PIMAGE_DOS_HEADER dosHeader = (PIMAGE_DOS_HEADER)hModule;
@@ -120,17 +130,19 @@ public:
         // FAT injection detection can be specific to the application structure (like virtual table).
         std::cout << "Checking for FAT injection (function pointer table manipulation)." << std::endl;
 
-
         MyClass obj;
         void** vtable = *(void***)&obj;  // Get the vtable of the object
-        FARPROC expectedFuncAddr = (FARPROC)&MyClass::MyFunction;
+        //FARPROC expectedFuncAddr = (FARPROC)&MyClass::MyFunction;
+        void (MyClass::*expectedFunc)() = &MyClass::MyFunction;
 
         std::cout << "Checking vtable for MyClass object..." << std::endl;
 
         // Implement virtual table integrity checks here.
-        if ((FARPROC)vtable[0] != expectedFuncAddr) {
+        // if ((FARPROC)vtable[0] != expectedFuncAddr) {
+        if (*(void**)&expectedFunc != vtable[0]) {
             std::cerr << "Potential vtable hijack detected! Function address in vtable: "
-                      << vtable[0] << ", Expected address: " << expectedFuncAddr << std::endl;
+                      //<< vtable[0] << ", Expected address: " << expectedFuncAddr << std::endl;
+                      << vtable[0] << ", Expected address: " << *(void**)&expectedFunc << std::endl;
         } else {
             std::cout << "Vtable integrity verified." << std::endl;
         }
