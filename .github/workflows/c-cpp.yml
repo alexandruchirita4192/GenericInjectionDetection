@@ -19,7 +19,7 @@ jobs:
         filename: injection_detector*
         path: .
         tag: 0.2
-        tag_name: '{github.GITHUB_REF}'
+        tag_name: $GITHUB_REF
 
   build-windows:
     runs-on: windows-latest
@@ -33,4 +33,4 @@ jobs:
         filename: injection_detector*
         path: .
         tag: 0.2
-        tag_name: '{github.GITHUB_REF}'
+        tag_name: $GITHUB_REF
