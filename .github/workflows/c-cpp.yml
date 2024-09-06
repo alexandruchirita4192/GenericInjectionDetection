@@ -1,0 +1,22 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build-linux:
+    runs-on: [ linux, x64 ]
+    steps:
+    - uses: actions/checkout@v4
+    - name: make
+      run: make
+      
+  build-windows:
+    runs-on: [ windows, x64 ]
+    steps:
+    - uses: actions/checkout@v4
+    - name: make
+      run: make
