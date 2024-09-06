@@ -65,16 +65,22 @@ jobs:
         
     - name: Upload Linux build to Release
       uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./release-assets/linux-build.tar.gz
         asset_name: linux-build.tar.gz
+        asset_label: Linux${{ github.run_number }}-${{ github.run_id }
         asset_content_type: application/gzip
         
     - name: Upload Windows build to Release
       uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./release-assets/windows-build.tar.gz
         asset_name: windows-build.tar.gz
+        asset_label: Linux${{ github.run_number }}-${{ github.run_id }
         asset_content_type: application/gzip
