@@ -1,5 +1,4 @@
-# GenericInjectionDetection
-Generic Injection Detection
+# Generic Injection Detection
 
 ## Detect DLL or SO injection
 - Windows
